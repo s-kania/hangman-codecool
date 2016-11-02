@@ -6,9 +6,10 @@ def fun_play():
     """Gameplay"""
     country_capital = fun_loadcountries()
     capitaldash = []
+    badletters = []
 
     #dzielenie country_capital na dwie zmienne
-    for x in range(0, len(country_capital) ):
+    for x in range(len(country_capital)):
         if country_capital[x] == "|":
             country = country_capital[:x-1]
             capital = country_capital[x+2:len(country_capital)-1]
@@ -17,12 +18,28 @@ def fun_play():
             break
 
     #zmienna capitaldash zamienia sie na "_"
-    for i in range(0,len(capitaldash)):
+    for i in range(len(capitaldash)):
         if capitaldash[i] != " ":
             capitaldash = capitaldash[:i] + '_' + capitaldash[i+1:]
 
 
-    print(capital," length ", len(capital))
+    while True:
+        print("\nTell me what is capital city of ",country,"?")
+        print("Length of word ",len(capitaldash)," Word:",capitaldash)
+        print("\nMisses ",badletters)
+        userinput = input("\nEnter letter or word ")
+        if len(userinput) > 1:
+            if userinput == capital:
+                print("You win!")
+                break
+            else:
+                #zycie odejmuje
+                pass
+        else:
+
+            break
+
+
     print(capitaldash," length ", len(capitaldash))
 
     return
