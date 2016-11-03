@@ -72,7 +72,7 @@ def fun_loadcountries():
     #zwraca losowe panstwo i jego stolice
 
 
-
+#blabla
 #dziala
 def main():
     print("Welcome in HANGMAN game!")
