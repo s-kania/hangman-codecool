@@ -22,9 +22,9 @@ def fun_play():
         if capitaldash[i] != " ":
             capitaldash = capitaldash[:i] + '_' + capitaldash[i+1:]
 
-
+    #petla rozgrywki
     while True:
-        print("\nTell me what is capital city of ",country,"?")
+        print("\n***************************\nTell me what is capital city of ",country,"?")
         print("Length of word ",len(capitaldash)," Word:",capitaldash)
         print("\nMisses ",badletters)
         userinput = input("\nEnter letter or word ")
@@ -36,17 +36,16 @@ def fun_play():
                 break
         else:
             for x in range(len(capital)):
-               if capital[x] == userinput:
-                   capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
-                   print("Good!")
+                if capital[x] == userinput:
+                    capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
+                    print("Good!")
+                else: #zle trafienie
+                    badletters.append(userinput)
+                    print("Bad! You lose one life")
+
 
         if userinput == "EXIT":
             break
-
-
-
-
-
     #print(capitaldash," length ", len(capitaldash))
 
     return
@@ -79,7 +78,7 @@ def main():
     print("Welcome in HANGMAN game!")
 
     while True:
-        print("\nMenu:\n1: Play game\n2: View Leaderboards\n3: Quit")
+        print("\n*************************\nMenu:\n1: Play game\n2: View Leaderboards\n3: Quit\n*************************")
         picked = input("You pick: ")
 
         if picked == "1":
@@ -93,11 +92,11 @@ def main():
             print("\nWrong command")
 #elo nara
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
 #stefan
-=======
+#=======
 #seba
->>>>>>> c9a8fd89f9db466df4704a1118d4c396bf43d2e1
+#>>>>>>> c9a8fd89f9db466df4704a1118d4c396bf43d2e1
 #hahaha
 
 if __name__ == "__main__":
