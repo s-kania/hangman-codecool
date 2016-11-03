@@ -92,7 +92,7 @@ def main():
         else:
             print("\nWrong command")
 
-
+#stefan
 
 if __name__ == "__main__":
     main()
