@@ -74,7 +74,7 @@ def fun_loadcountries():
 
 
 
-
+#dziala
 def main():
     print("Welcome in HANGMAN game!")
 
