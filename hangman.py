@@ -35,6 +35,7 @@ def fun_play():
                 print("You win!")
                 break
             else: #zle trafienie
+                badletters.append(userinput)
                 print("Bad! You lose one life")
         else:
             if userinput in capital:
