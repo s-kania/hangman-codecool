@@ -4,12 +4,16 @@ game_time = 0
 health = 6
 
 
+def score(time,attemps,city):
+    score = (city * 200) + 1100 - (time*4.25) - (attemps*95.75)
+    return score
+
 def hang_animation(health):
     scene = open("end_scene.txt", "r")
     for x, line in enumerate(scene):
         if x < 25 and health == 0:
             print(line, end="")
-        elif x > 29 and x < 53 and health == 1:
+        elif x >= 29 and x <= 53 and health == 1:
             print(line, end="")
         elif x >= 59 and x <= 83 and health == 2:
             print(line, end="")
@@ -17,7 +21,7 @@ def hang_animation(health):
             print(line, end="")
         elif x >= 119 and x <= 143 and health == 4:
             print(line, end="")
-        elif x >= 149 and x <= 174 and health == 5:
+        elif x >= 149 and x <= 173 and health == 5:
             print(line, end="")
         elif x >= 179 and x <= 204 and health == 6:
             print(line, end="")
@@ -27,13 +31,13 @@ def hang_animation(health):
 
 
 
-def fun_win(attemps):
+def fun_win(attemps,capital):
     global game_time
     os.system('clear')
     game_time = time.time() - game_time
 
     print("\n\n************************\nCongratulations you won!\n************************\n\n")
-    print("You guessed after %d attemps. It took you %d seconds." %(attemps,game_time))
+    print("You guessed after %d attemps. It took you %d seconds. Your score: %d" %(attemps,game_time,score(game_time,attemps,len(capital)) ))
     input("Click Enter to continue") #wraca do menu
     os.system('clear')
     return
@@ -42,8 +46,9 @@ def fun_lose(attemps):
     global game_time
     os.system('clear')
     game_time = time.time() - game_time
-
-    print("\n\n************************\nCongratulations you lose!\n************************\n\n")
+    print("\n***************************\n")
+    hang_animation(0)
+    print("\n**************************\nCongratulations you lose!\n**************************\n\n")
     print("You not guessed after %d attemps. It took you %d seconds." %(attemps,game_time))
     input("Click Enter to continue") #wraca do menu
     os.system('clear')
@@ -63,13 +68,13 @@ def fun_play(country,capital,capitaldash):
         print("\n***************************\nTell me what is capital city of ",country,"?")
         print("Length of word ",len(capitaldash)," Word:",capitaldash)
         print("\nMisses ",",".join(badletters))
-        userinput = input("\nEnter letter or word ")
+        userinput = input("\nEnter letter or word: ")
         userinput = userinput.upper()
 
         if len(userinput) > 1:
             if userinput == capital:
                 attemps += 1
-                fun_win(attemps) #wygrana po calym zdaniu
+                fun_win(attemps,capital) #wygrana po calym zdaniu
                 break
             else:
                 badletters.append(userinput)
@@ -82,7 +87,7 @@ def fun_play(country,capital,capitaldash):
                     if capital[x] == userinput:
                         capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
                 if capital == capitaldash: #wygrana po literkach
-                    fun_win(attemps)
+                    fun_win(attemps,capital)
                     break
                 print("\nGood!")
             else:
@@ -90,7 +95,7 @@ def fun_play(country,capital,capitaldash):
                 health -= 1
                 print("\nBad! You lose one life")
         if health <= 0:
-            time.sleep(1)
+            #time.sleep(1)
             fun_lose(attemps)
             break
 
