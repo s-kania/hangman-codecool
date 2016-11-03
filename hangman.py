@@ -28,24 +28,38 @@ def fun_play():
         print("Length of word ",len(capitaldash)," Word:",capitaldash)
         print("\nMisses ",badletters)
         userinput = input("\nEnter letter or word ")
+        userinput = userinput.upper()
+
         if len(userinput) > 1:
             if userinput == capital:
                 print("You win!")
                 break
-            else:
-                #zycie odejmuje
-                pass
         else:
+            for x in range(len(capital)):
+               if capital[x] == userinput:
+                   capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
+                   print("Good!")
 
+        if userinput == "EXIT":
             break
 
 
-    print(capitaldash," length ", len(capitaldash))
+
+
+
+    #print(capitaldash," length ", len(capitaldash))
 
     return
 
 
 def fun_leaderboards():
+    capital = 'ssasd'
+    capitaldash = '_____'
+    userinput = input('sd: ')
+    for x in range(len(capital)):
+       if capital[x] == userinput:
+           capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
+    print(capitaldash)
     return
 
 
