@@ -34,14 +34,18 @@ def fun_play():
             if userinput == capital:
                 print("You win!")
                 break
+            else: #zle trafienie
+                print("Bad! You lose one life")
         else:
-            for x in range(len(capital)):
-                if capital[x] == userinput:
-                    capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
-                    print("Good!")
-                else: #zle trafienie
-                    badletters.append(userinput)
-                    print("Bad! You lose one life")
+            if userinput in capital:
+                for x in range(len(capital)):
+                    if capital[x] == userinput:
+                        capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
+                        print("Good!")
+            else:
+                badletters.append(userinput)
+                print("Bad! You lose one life")
+
 
 
         if userinput == "EXIT":
