@@ -10,9 +10,9 @@ high_score_list = []
 
 def load_list():
     global high_score_list
-    f = open('score.txt', 'r')
-    high_score_list = [list(literal_eval(line)) for line in f]
-    f.close()
+    score_file = open('score.txt', 'r')
+    high_score_list = [list(literal_eval(line)) for line in score_file]
+    score_file.close()
 
 
 def save_list():
@@ -24,26 +24,26 @@ def save_list():
 
 
 def score(time, attemps, city):
-    score = (city * 200) + 1100 - (time * 4.25) - (attemps * 95.75)
-    return score
+    score_formula = (city * 200) + 1100 - (time * 4.25) - (attemps * 95.75)
+    return score_formula
 
 
-def hang_animation(health):
+def hang_animation(health_point):
     scene = open("end_scene.txt", "r")
     for x, line in enumerate(scene):
-        if x < 25 and health == 0:
+        if x < 25 and health_point == 0:
             print(line, end="")
-        elif x >= 29 and x <= 53 and health == 1:
+        elif 29 <= x <= 53 and health_point == 1:
             print(line, end="")
-        elif x >= 59 and x <= 83 and health == 2:
+        elif 59 <= x <= 83 and health_point == 2:
             print(line, end="")
-        elif x >= 89 and x <= 113 and health == 3:
+        elif 89 <= x <= 113 and health_point == 3:
             print(line, end="")
-        elif 119 <= x <= 143 and health == 4:
+        elif 119 <= x <= 143 and health_point == 4:
             print(line, end="")
-        elif 149 <= x <= 173 and health == 5:
+        elif 149 <= x <= 173 and health_point == 5:
             print(line, end="")
-        elif x >= 179 and x <= 204 and health == 6:
+        elif 179 <= x <= 204 and health_point == 6:
             print(line, end="")
         else:
             pass
