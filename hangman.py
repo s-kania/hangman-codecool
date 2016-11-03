@@ -51,6 +51,7 @@ def hang_animation(health_point):
 
 
 def fun_win(attemps, capital):
+    global high_score_list
     global game_time
     os.system('clear')
     game_time = time.time() - game_time
@@ -154,7 +155,6 @@ def fun_leaderboards():
     for index, item in enumerate(high_score_list):
         print("{}. Score: {}  Name: {}  Time: {}sec  Atempts: {}" \
               .format(index + 1, int(item[0]), item[1], int(item[2]), item[3]))
-
     return
 
 
