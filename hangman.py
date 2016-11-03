@@ -1,29 +1,20 @@
-import random
+import random, os
+
+def fun_win():
+    os.system('clear')
+    print("\n\n************************\nCongratulations you won!\n************************\n\n")
+    print()
+    input("Click Enter to continue") #wraca do menu
+    os.system('clear')
+    return
 
 
-
-def fun_play():
+def fun_play(country,capital,capitaldash):
     """Gameplay"""
-    country_capital = fun_loadcountries()
-    capitaldash = []
     badletters = []
 
-    #dzielenie country_capital na dwie zmienne
-    for x in range(len(country_capital)):
-        if country_capital[x] == "|":
-            country = country_capital[:x-1]
-            capital = country_capital[x+2:len(country_capital)-1]
-            capital = capital.upper()
-            capitaldash = capital[:]
-            break
-
-    #zmienna capitaldash zamienia sie na "_"
-    for i in range(len(capitaldash)):
-        if capitaldash[i] != " ":
-            capitaldash = capitaldash[:i] + '_' + capitaldash[i+1:]
-
-    #petla rozgrywki
     while True:
+        os.system('clear')
         print("\n***************************\nTell me what is capital city of ",country,"?")
         print("Length of word ",len(capitaldash)," Word:",capitaldash)
         print("\nMisses ",badletters)
@@ -32,38 +23,49 @@ def fun_play():
 
         if len(userinput) > 1:
             if userinput == capital:
-                print("You win!")
+                fun_win() #wygrana po calym zdaniu
                 break
-            else: #zle trafienie
+            else:
                 badletters.append(userinput)
-                print("Bad! You lose one life")
+                print("\nBad! You lose one life")
         else:
             if userinput in capital:
                 for x in range(len(capital)):
                     if capital[x] == userinput:
                         capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
-                        print("Good!")
+                if capital == capitaldash: #wygrana po literkach
+                    fun_win()
+                    break
+                print("\nGood!")
             else:
                 badletters.append(userinput)
-                print("Bad! You lose one life")
+                print("\nBad! You lose one life")
 
+    return
 
-
-        if userinput == "EXIT":
+def fun_initplay():
+    """Init Gameplay"""
+    country_capital = fun_loadcountries()
+    capitaldash = []
+    #dzielenie country_capital na dwie zmienne
+    for x in range(len(country_capital)):
+        if country_capital[x] == "|":
+            country = country_capital[:x-1]
+            capital = country_capital[x+2:len(country_capital)-1]
+            capital = capital.upper()
+            capitaldash = capital[:]
             break
-    #print(capitaldash," length ", len(capitaldash))
+    #zmienna capitaldash zamienia sie na "_"
+    for i in range(len(capitaldash)):
+        if capitaldash[i] != " ":
+            capitaldash = capitaldash[:i] + '_' + capitaldash[i+1:]
 
+    #uruchomienie rozgrywki
+    fun_play(country,capital,capitaldash)
     return
 
 
 def fun_leaderboards():
-    capital = 'ssasd'
-    capitaldash = '_____'
-    userinput = input('sd: ')
-    for x in range(len(capital)):
-       if capital[x] == userinput:
-           capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
-    print(capitaldash)
     return
 
 
@@ -79,6 +81,7 @@ def fun_loadcountries():
 
 #dziala
 def main():
+    os.system('clear')
     print("Welcome in HANGMAN game!")
 
     while True:
@@ -86,7 +89,7 @@ def main():
         picked = input("You pick: ")
 
         if picked == "1":
-            fun_play()
+            fun_initplay()
         elif picked == "2":
             fun_leaderboards()
         elif picked == "3":
