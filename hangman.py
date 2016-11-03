@@ -1,9 +1,13 @@
-import random, os
+import random, os , time
+game_time = 0
 
-def fun_win():
+def fun_win(attemps):
+    global game_time
     os.system('clear')
+    game_time = time.time() - game_time
+
     print("\n\n************************\nCongratulations you won!\n************************\n\n")
-    print()
+    print("You guessed after %d attemps. It took you %d seconds." %(attemps,game_time))
     input("Click Enter to continue") #wraca do menu
     os.system('clear')
     return
@@ -12,29 +16,32 @@ def fun_win():
 def fun_play(country,capital,capitaldash):
     """Gameplay"""
     badletters = []
+    attemps = 0
 
     while True:
         os.system('clear')
         print("\n***************************\nTell me what is capital city of ",country,"?")
         print("Length of word ",len(capitaldash)," Word:",capitaldash)
-        print("\nMisses ",badletters)
+        print("\nMisses ",",".join(badletters))
         userinput = input("\nEnter letter or word ")
         userinput = userinput.upper()
 
         if len(userinput) > 1:
             if userinput == capital:
-                fun_win() #wygrana po calym zdaniu
+                attemps += 1
+                fun_win(attemps) #wygrana po calym zdaniu
                 break
             else:
                 badletters.append(userinput)
                 print("\nBad! You lose one life")
         else:
+            attemps += 1
             if userinput in capital:
                 for x in range(len(capital)):
                     if capital[x] == userinput:
                         capitaldash = capitaldash[:x] + userinput + capitaldash[x+1:]
                 if capital == capitaldash: #wygrana po literkach
-                    fun_win()
+                    fun_win(attemps)
                     break
                 print("\nGood!")
             else:
@@ -81,6 +88,7 @@ def fun_loadcountries():
 
 #dziala
 def main():
+    global game_time
     os.system('clear')
     print("Welcome in HANGMAN game!")
 
@@ -89,6 +97,7 @@ def main():
         picked = input("You pick: ")
 
         if picked == "1":
+            game_time = time.time()
             fun_initplay()
         elif picked == "2":
             fun_leaderboards()
