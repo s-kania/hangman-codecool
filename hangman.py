@@ -166,7 +166,7 @@ def fun_initplay():
 def fun_leaderboards():
     fun_effectwow('1effect.txt')
     load_list()
-    sorted(high_score_list, key=lambda x: int(x[0]), reverse=True)
+    high_score_list.sort(key=lambda x: int(x[0]), reverse=True)
     cprint("\n******************************************************\n", 'yellow')
     for index, item in enumerate(high_score_list):
         print("{}. Score: {}  Name: {}  Time: {}sec  Atempts: {}" \
