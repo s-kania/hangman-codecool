@@ -71,7 +71,7 @@ def fun_loadcountries():
     return countries_array[random.randrange(0, len(countries_array) - 1 )]
     #zwraca losowe panstwo i jego stolice
 
-
+#koment
 
 #dziala
 def main():
