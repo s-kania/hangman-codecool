@@ -1,5 +1,31 @@
 import random, os , time
+
 game_time = 0
+health = 6
+
+
+def hang_animation(health):
+    scene = open("end_scene.txt", "r")
+    for x, line in enumerate(scene):
+        if x < 25 and health == 0:
+            print(line, end="")
+        elif x > 29 and x < 53 and health == 1:
+            print(line, end="")
+        elif x >= 59 and x <= 83 and health == 2:
+            print(line, end="")
+        elif x >= 89 and x <= 113 and health == 3:
+            print(line, end="")
+        elif x >= 119 and x <= 143 and health == 4:
+            print(line, end="")
+        elif x >= 149 and x <= 174 and health == 5:
+            print(line, end="")
+        elif x >= 179 and x <= 204 and health == 6:
+            print(line, end="")
+        else:
+            pass
+    scene.close()
+
+
 
 def fun_win(attemps):
     global game_time
@@ -12,14 +38,28 @@ def fun_win(attemps):
     os.system('clear')
     return
 
+def fun_lose(attemps):
+    global game_time
+    os.system('clear')
+    game_time = time.time() - game_time
+
+    print("\n\n************************\nCongratulations you lose!\n************************\n\n")
+    print("You not guessed after %d attemps. It took you %d seconds." %(attemps,game_time))
+    input("Click Enter to continue") #wraca do menu
+    os.system('clear')
+    return
+
 
 def fun_play(country,capital,capitaldash):
     """Gameplay"""
     badletters = []
     attemps = 0
+    global health
 
     while True:
         os.system('clear')
+        print("\n***************************\n")
+        hang_animation(health)
         print("\n***************************\nTell me what is capital city of ",country,"?")
         print("Length of word ",len(capitaldash)," Word:",capitaldash)
         print("\nMisses ",",".join(badletters))
@@ -33,6 +73,7 @@ def fun_play(country,capital,capitaldash):
                 break
             else:
                 badletters.append(userinput)
+                health -= 2
                 print("\nBad! You lose one life")
         else:
             attemps += 1
@@ -46,7 +87,12 @@ def fun_play(country,capital,capitaldash):
                 print("\nGood!")
             else:
                 badletters.append(userinput)
+                health -= 1
                 print("\nBad! You lose one life")
+        if health <= 0:
+            time.sleep(1)
+            fun_lose(attemps)
+            break
 
     return
 
@@ -89,6 +135,7 @@ def fun_loadcountries():
 #dziala
 def main():
     global game_time
+    global health
     os.system('clear')
     print("Welcome in HANGMAN game!")
 
@@ -97,6 +144,7 @@ def main():
         picked = input("You pick: ")
 
         if picked == "1":
+            health = 6
             game_time = time.time()
             fun_initplay()
         elif picked == "2":
@@ -105,6 +153,7 @@ def main():
             print("Goodbye!")
             break
         else:
+            os.system('clear')
             print("\nWrong command")
 
 
