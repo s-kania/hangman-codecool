@@ -1,6 +1,10 @@
 import os
 import random
 import time
+import sys
+from termcolor import colored, cprint
+
+
 from ast import literal_eval
 
 game_time = 0
@@ -55,14 +59,20 @@ def fun_win(attemps, capital):
     global game_time
     os.system('clear')
     game_time = time.time() - game_time
+    cprint("***************************\n", 'yellow')
+    hang_animation(6)
 
-    print("\n\n************************\nCongratulations you won!\n************************\n\n")
+    cprint("\n***************************", 'yellow')
+    cprint("Congratulations you WON!", 'red', attrs=['bold'])
+    cprint("***************************\n\n", 'yellow')
+
     print("You guessed after %d attemps. It took you %d seconds. Your score: %d" % (
         attemps, game_time, score(game_time, attemps, len(capital))))
     name_user = input("Click Enter to continue (type your name): ")  # wraca do menu
     os.system('clear')
     high_score_list.append([score(game_time, attemps, len(capital)), name_user, game_time, attemps])
     save_list()
+    fun_leaderboards()
     return
 
 
@@ -70,9 +80,13 @@ def fun_lose(attemps):
     global game_time
     os.system('clear')
     game_time = time.time() - game_time
-    print("\n***************************\n")
+    cprint("***************************\n", 'yellow')
     hang_animation(0)
-    print("\n**************************\nCongratulations you lose!\n**************************\n\n")
+
+    cprint("\n***************************", 'yellow')
+    cprint("Congratulations you LOSE!", 'red', attrs=['bold'])
+    cprint("***************************\n\n", 'yellow')
+    
     print("You not guessed after %d attemps. It took you %d seconds." % (attemps, game_time))
     input("Click Enter to continue")  # wraca do menu
     os.system('clear')
@@ -87,11 +101,12 @@ def fun_play(country, capital, capitaldash):
 
     while True:
         os.system('clear')
-        print("\n***************************\n")
+        cprint("\n***************************\n", 'yellow')
         hang_animation(health)
-        print("\n***************************\nTell me what is capital city of ", country, "?")
+        cprint("\n***************************\n", 'yellow')
+        print("Tell me what is capital city of ", country, "?")
         print("Length of word ", len(capitaldash), " Word:", capitaldash)
-        print("\nMisses ", ",".join(badletters))
+        cprint("\nMisses " + ",".join(badletters), 'red')
         userinput = input("\nEnter letter or word: ")
         userinput = userinput.upper()
 
@@ -103,7 +118,7 @@ def fun_play(country, capital, capitaldash):
             else:
                 badletters.append(userinput)
                 health -= 2
-                print("\nBad! You lose one life")
+                cprint("\nBad! You lose to lives", 'red', attrs=['bold'])
         else:
             attemps += 1
             if userinput in capital:
@@ -117,7 +132,7 @@ def fun_play(country, capital, capitaldash):
             else:
                 badletters.append(userinput)
                 health -= 1
-                print("\nBad! You lose one life")
+                cprint("\nBad! You lose one life", 'red', attrs=['bold'])
         if health <= 0:
             # time.sleep(1)
             fun_lose(attemps)
@@ -149,12 +164,15 @@ def fun_initplay():
 
 
 def fun_leaderboards():
-    # high_score_list.append([score(game_time,attemps,len(capital)), name_user, game_time, attemps])
+    fun_effectwow('1effect.txt')
     load_list()
     sorted(high_score_list, key=lambda x: int(x[0]), reverse=True)
+    cprint("\n******************************************************\n", 'yellow')
     for index, item in enumerate(high_score_list):
         print("{}. Score: {}  Name: {}  Time: {}sec  Atempts: {}" \
               .format(index + 1, int(item[0]), item[1], int(item[2]), item[3]))
+    cprint("\n******************************************************\n", 'yellow')
+    input("Click Enter to continue")  # wraca do menu
     return
 
 
@@ -168,6 +186,21 @@ def fun_loadcountries():
     # zwraca losowe panstwo i jego stolice
 
 
+def fun_effectwow(what):
+    """special effect"""
+    f = open(what, 'r')
+    colorlist = ["red", "green", "yellow", "blue", "magenta", "cyan", "white"]
+    effect_list = [line[:-1] for line in f]
+    f.close()
+
+    for i in range( len(effect_list[0]) ):
+        os.system('clear')
+        for x in range(len(effect_list)):
+            cprint(effect_list[x][:i],random.choice(colorlist))
+        time.sleep(0.02)
+
+
+
 # dziala
 def main():
     if not os.path.exists("score.txt"):
@@ -177,13 +210,15 @@ def main():
     global game_time
     global health
     os.system('clear')
-    print("Welcome in HANGMAN game!")
 
     while True:
-        print(
-            "\n*************************\nMenu:\n1: Play game\n2: View Leaderboards\n3: Quit\n*************************")
-        picked = input("You pick: ")
+        fun_effectwow('2effect.txt')
+        cprint('\n*************************', 'yellow')
+        print("Menu:\n1: Play game\n2: View Leaderboards\n3: Quit")
+        cprint('*************************', 'yellow')
+        picked = input("\nYou pick: ")
 
+        #menu system
         if picked == "1":
             health = 6
             game_time = time.time()
@@ -191,11 +226,11 @@ def main():
         elif picked == "2":
             fun_leaderboards()
         elif picked == "3":
-            print("Goodbye!")
+            cprint("\nGoodbye!\n", 'red', attrs=['bold'])
             break
         else:
-            os.system('clear')
-            print("\nWrong command")
+            cprint("\nWrong command\n", 'red', attrs=['bold'])
+            input()
 
 
 if __name__ == "__main__":
