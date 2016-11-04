@@ -73,7 +73,7 @@ def fun_win(attemps, capital):
 
     print("You guessed after %d attemps. It took you %d seconds. Your score: %d" % (
         attemps, game_time, score(game_time, attemps, len(capital))))
-    name_user = input("Click Enter to continue (type your name): ")  # wraca do menu
+    name_user = input("Click Enter to continue (type your name): ")
     os.system('clear')
     load_list()
     high_score_list.append([score(game_time, attemps, len(capital)), name_user, game_time, attemps, capital])
@@ -117,21 +117,21 @@ def fun_play(country, capital, capitaldash):
         userinput = input("\nEnter letter or word: ")
         userinput = userinput.upper()
 
-        if len(userinput) > 1: #sprawdza czy uzytkownik wpisuje zdanie
+        if len(userinput) > 1:
             if userinput == capital:
                 attemps += 1
-                fun_win(attemps, capital)  # wygrana po calym zdaniu
+                fun_win(attemps, capital)
                 break
             else:
                 badletters.append(userinput)
                 health -= 2
-        else: #sprawdza literki
+        else:
             attemps += 1
-            if userinput in capital: #jesli uzytkownik zgadl
+            if userinput in capital:
                 for x in range(len(capital)):
                     if capital[x] == userinput:
                         capitaldash = capitaldash[:x] + userinput + capitaldash[x + 1:]
-                if capital == capitaldash:  # wygrana po literkach
+                if capital == capitaldash:
                     fun_win(attemps, capital)
                     break
             else:
@@ -148,7 +148,6 @@ def fun_initplay():
     """Init Gameplay"""
     country_capital = fun_loadcountries()
     capitaldash = []
-    # dzielenie country_capital na dwie zmienne
     for x in range(len(country_capital)):
         if country_capital[x] == "|":
             country = country_capital[:x - 1]
@@ -156,7 +155,7 @@ def fun_initplay():
             capital = capital.upper()
             capitaldash = capital[:]
             break
-    # zmienna capitaldash zamienia sie na "_" ale pomija spacje
+    # change each letter to _ and passes whitespaces
     for i in range(len(capitaldash)):
         if capitaldash[i] != " ":
             capitaldash = capitaldash[:i] + '_' + capitaldash[i + 1:]
@@ -172,8 +171,7 @@ def fun_leaderboards():
     load_list()
     high_score_list.sort(key=lambda x: int(x[0]), reverse=True)
 
-    #creepy - to cos znajduje najdluzszy element z highscorelist aby poprawnie
-    #wyswietlalo linie ******* etc.
+    #creepy get len of each line in leaderborad
     new_list = []
     for index, item in enumerate(high_score_list):
         new_list.append( len("{}. Score: {}  Name: {}  Time: {}sec  Atempts: {} Word: {}" \
@@ -189,7 +187,7 @@ def fun_leaderboards():
               .format(index + 1, int(item[0]), item[1], int(item[2]), item[3], item[4]))
 
     cprint("\n" + (best_length * '*') +"\n", 'green', attrs=['bold', 'reverse'])
-    input("Click Enter to continue")  # wraca do menu
+    input("Click Enter to continue")
     return
 
 
@@ -200,7 +198,6 @@ def fun_loadcountries():
     countries_file.close()
 
     return countries_array[random.randrange(0, len(countries_array) - 1)]
-    # zwraca losowe panstwo i jego stolice
 
 
 def fun_effectwow(what):
@@ -218,7 +215,6 @@ def fun_effectwow(what):
 
 
 
-# dziala
 def main():
     """First function after loading program"""
     if not os.path.exists("score.txt"):
