@@ -64,7 +64,7 @@ def fun_win(attemps, capital):
     global game_time
     os.system('clear')
     game_time = time.time() - game_time
-    cprint(27 * '*' + "\n", 'yellow')
+    cprint("\n" + 27 * '*' + "\n", 'yellow')
     hang_animation(6)
 
     cprint("\n" + 27 * '*', 'yellow')
@@ -87,7 +87,7 @@ def fun_lose(attemps):
     global game_time
     os.system('clear')
     game_time = time.time() - game_time
-    cprint(27 * '*' + "\n", 'yellow')
+    cprint("\n" + 27 * '*' + "\n", 'yellow')
     hang_animation(0)
 
     cprint("\n" + 27 * '*', 'yellow')
