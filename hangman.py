@@ -13,6 +13,7 @@ high_score_list = []
 
 
 def load_list():
+    """Loading highscore list"""
     global high_score_list
     score_file = open('score.txt', 'r')
     high_score_list = [list(literal_eval(line)) for line in score_file]
@@ -20,6 +21,7 @@ def load_list():
 
 
 def save_list():
+    """Saving highscore list"""
     global high_score_list
     f = open('score.txt', 'w+')
     for i in high_score_list:
@@ -28,11 +30,13 @@ def save_list():
 
 
 def score(time, attemps, city):
+    """Count score"""
     score_formula = (city * 200) + 1100 - (time * 4.25) - (attemps * 95.75)
     return score_formula
 
 
 def hang_animation(health_point):
+    """Displaying hangman"""
     scene = open("end_scene.txt", "r")
     for x, line in enumerate(scene):
         if x < 25 and health_point == 0:
@@ -55,16 +59,17 @@ def hang_animation(health_point):
 
 
 def fun_win(attemps, capital):
+    """After win screen"""
     global high_score_list
     global game_time
     os.system('clear')
     game_time = time.time() - game_time
-    cprint("***************************\n", 'yellow')
+    cprint(27 * '*' + "\n", 'yellow')
     hang_animation(6)
 
-    cprint("\n***************************", 'yellow')
+    cprint("\n" + 27 * '*', 'yellow')
     cprint("Congratulations you WON!", 'red', attrs=['bold'])
-    cprint("***************************\n\n", 'yellow')
+    cprint(27 * '*' + "\n\n", 'yellow')
 
     print("You guessed after %d attemps. It took you %d seconds. Your score: %d" % (
         attemps, game_time, score(game_time, attemps, len(capital))))
@@ -74,21 +79,21 @@ def fun_win(attemps, capital):
     high_score_list.append([score(game_time, attemps, len(capital)), name_user, game_time, attemps, capital])
     save_list()
     fun_leaderboards()
-
     return
 
 
 def fun_lose(attemps):
+    """After lose screen"""
     global game_time
     os.system('clear')
     game_time = time.time() - game_time
-    cprint("***************************\n", 'yellow')
+    cprint(27 * '*' + "\n", 'yellow')
     hang_animation(0)
 
-    cprint("\n***************************", 'yellow')
+    cprint("\n" + 27 * '*', 'yellow')
     cprint("Congratulations you LOSE!", 'red', attrs=['bold'])
-    cprint("***************************\n\n", 'yellow')
-    
+    cprint(27 * '*' + "\n\n", 'yellow')
+
     print("You not guessed after %d attemps. It took you %d seconds." % (attemps, game_time))
     input("Click Enter to continue")  # wraca do menu
     os.system('clear')
@@ -103,16 +108,16 @@ def fun_play(country, capital, capitaldash):
 
     while True:
         os.system('clear')
-        cprint("\n***************************\n", 'yellow')
+        cprint("\n" + 27 * '*' + "\n", 'yellow')
         hang_animation(health)
-        cprint("\n***************************\n", 'yellow')
+        cprint("\n" + 27 * '*' + "\n", 'yellow')
         print("Tell me what is capital city of ", country, "?")
         print("Length of word ", len(capitaldash), " Word:", capitaldash)
-        cprint("\nMisses " + ",".join(badletters), 'red')
+        cprint("\nMisses " + ",".join(badletters), 'red') # bad letters displaying
         userinput = input("\nEnter letter or word: ")
         userinput = userinput.upper()
 
-        if len(userinput) > 1:
+        if len(userinput) > 1: #sprawdza czy uzytkownik wpisuje zdanie
             if userinput == capital:
                 attemps += 1
                 fun_win(attemps, capital)  # wygrana po calym zdaniu
@@ -120,16 +125,15 @@ def fun_play(country, capital, capitaldash):
             else:
                 badletters.append(userinput)
                 health -= 2
-        else:
+        else: #sprawdza literki
             attemps += 1
-            if userinput in capital:
+            if userinput in capital: #jesli uzytkownik zgadl
                 for x in range(len(capital)):
                     if capital[x] == userinput:
                         capitaldash = capitaldash[:x] + userinput + capitaldash[x + 1:]
                 if capital == capitaldash:  # wygrana po literkach
                     fun_win(attemps, capital)
                     break
-                print("\nGood!")
             else:
                 badletters.append(userinput)
                 health -= 1
@@ -152,7 +156,7 @@ def fun_initplay():
             capital = capital.upper()
             capitaldash = capital[:]
             break
-    # zmienna capitaldash zamienia sie na "_"
+    # zmienna capitaldash zamienia sie na "_" ale pomija spacje
     for i in range(len(capitaldash)):
         if capitaldash[i] != " ":
             capitaldash = capitaldash[:i] + '_' + capitaldash[i + 1:]
@@ -163,14 +167,28 @@ def fun_initplay():
 
 
 def fun_leaderboards():
+    """Show leaderboards"""
     fun_effectwow('1effect.txt')
     load_list()
     high_score_list.sort(key=lambda x: int(x[0]), reverse=True)
-    cprint("\n******************************************************\n", 'yellow')
+
+    #creepy - to cos znajduje najdluzszy element z highscorelist aby poprawnie
+    #wyswietlalo linie ******* etc.
+    new_list = []
+    for index, item in enumerate(high_score_list):
+        new_list.append( len("{}. Score: {}  Name: {}  Time: {}sec  Atempts: {} Word: {}" \
+              .format(index + 1, int(item[0]), item[1], int(item[2]), item[3], item[4]) ) )
+    best_length = max(new_list)
+    #creepy end
+
+
+    cprint("\n" + (best_length * '*') +"\n", 'green', attrs=['bold', 'reverse'])
+
     for index, item in enumerate(high_score_list):
         print("{}. Score: {}  Name: {}  Time: {}sec  Atempts: {} Word: {}" \
               .format(index + 1, int(item[0]), item[1], int(item[2]), item[3], item[4]))
-    cprint("\n******************************************************\n", 'yellow')
+
+    cprint("\n" + (best_length * '*') +"\n", 'green', attrs=['bold', 'reverse'])
     input("Click Enter to continue")  # wraca do menu
     return
 
@@ -186,7 +204,7 @@ def fun_loadcountries():
 
 
 def fun_effectwow(what):
-    """special effect"""
+    """Special effect"""
     f = open(what, 'r')
     colorlist = ["red", "green", "yellow", "blue", "magenta", "cyan", "white"]
     effect_list = [line[:-1] for line in f]
@@ -202,6 +220,7 @@ def fun_effectwow(what):
 
 # dziala
 def main():
+    """First function after loading program"""
     if not os.path.exists("score.txt"):
         scorelist = open("score.txt", "w")
         scorelist.close()
@@ -212,9 +231,9 @@ def main():
 
     while True:
         fun_effectwow('2effect.txt')
-        cprint('\n*************************', 'yellow')
-        print("Menu:\n1: Play game\n2: View Leaderboards\n3: Quit")
-        cprint('*************************', 'yellow')
+        cprint('\n\n'+ 25 * '*', 'magenta', attrs=['bold'])
+        print("\nMenu:\n1: Play game\n2: View Leaderboards\n3: Quit\n")
+        cprint(25 * '*', 'magenta', attrs=['bold'])
         picked = input("\nYou pick: ")
 
         #menu system
