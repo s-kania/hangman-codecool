@@ -70,9 +70,11 @@ def fun_win(attemps, capital):
         attemps, game_time, score(game_time, attemps, len(capital))))
     name_user = input("Click Enter to continue (type your name): ")  # wraca do menu
     os.system('clear')
-    high_score_list.append([score(game_time, attemps, len(capital)), name_user, game_time, attemps])
+    load_list()
+    high_score_list.append([score(game_time, attemps, len(capital)), name_user, game_time, attemps, capital])
     save_list()
     fun_leaderboards()
+
     return
 
 
@@ -118,7 +120,6 @@ def fun_play(country, capital, capitaldash):
             else:
                 badletters.append(userinput)
                 health -= 2
-                cprint("\nBad! You lose to lives", 'red', attrs=['bold'])
         else:
             attemps += 1
             if userinput in capital:
@@ -132,9 +133,7 @@ def fun_play(country, capital, capitaldash):
             else:
                 badletters.append(userinput)
                 health -= 1
-                cprint("\nBad! You lose one life", 'red', attrs=['bold'])
         if health <= 0:
-            # time.sleep(1)
             fun_lose(attemps)
             break
 
@@ -169,8 +168,8 @@ def fun_leaderboards():
     high_score_list.sort(key=lambda x: int(x[0]), reverse=True)
     cprint("\n******************************************************\n", 'yellow')
     for index, item in enumerate(high_score_list):
-        print("{}. Score: {}  Name: {}  Time: {}sec  Atempts: {}" \
-              .format(index + 1, int(item[0]), item[1], int(item[2]), item[3]))
+        print("{}. Score: {}  Name: {}  Time: {}sec  Atempts: {} Word: {}" \
+              .format(index + 1, int(item[0]), item[1], int(item[2]), item[3], item[4]))
     cprint("\n******************************************************\n", 'yellow')
     input("Click Enter to continue")  # wraca do menu
     return

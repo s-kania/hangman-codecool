@@ -1,1 +1,2 @@
-[9000, 'Pan Poszlaka', 1, 0]
+[9000, 'Pan Poszlaka', 1, 1, 'Abu Dabi']
+
